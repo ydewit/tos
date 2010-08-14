@@ -1,10 +1,11 @@
 input marketThreshold = 0.0025;
 input showOnlyToday = no;
 input applyPersonsLevelsFilter = yes;
-input hourly = {default DAY, "2 DAYS", "3 DAYS", "4 DAYS", WEEK, MONTH, "OPT EXP"};
-input daily = {DAY, "2 DAYS", "3 DAYS", "4 DAYS", WEEK, default MONTH, "OPT EXP"};
-input weekly = {WEEK, default MONTH, "OPT EXP"};
+input hourly = {default DAY, "2 DAYS", "3 DAYS", "4 DAYS", WEEK, MONTH, "OPT EXP", DISABLED};
+input daily = {DAY, "2 DAYS", "3 DAYS", "4 DAYS", WEEK, default MONTH, "OPT EXP", DISABLED};
+input weekly = {WEEK, default MONTH, "OPT EXP", DISABLED};
 
+def disabled;
 rec timeFrame = {default DAY, "2 DAYS", "3 DAYS", "4 DAYS", WEEK, MONTH, "OPT EXP"};
 rec timeFrameLow;
 rec timeFrameHigh;
@@ -19,36 +20,49 @@ then {
         timeFrameLow = low(period = "DAY");
         timeFrameHigh = high(period = "DAY");
         timeFrameClose = close(period = "DAY");
+        disabled = no;
     case "2 DAYS":
         timeFrame = timeFrame."2 DAYS";
         timeFrameLow = low(period = "2 DAYS");
         timeFrameHigh = high(period = "2 DAYS");
         timeFrameClose = close(period = "2 DAYS");
+        disabled = no;
     case "3 DAYS":
         timeFrame = timeFrame."3 DAYS";
         timeFrameLow = low(period = "3 DAYS");
         timeFrameHigh = high(period = "3 DAYS");
         timeFrameClose = close(period = "3 DAYS");
+        disabled = no;
     case "4 DAYS":
         timeFrame = timeFrame."4 DAYS";
         timeFrameLow = low(period = "4 DAYS");
         timeFrameHigh = high(period = "4 DAYS");
         timeFrameClose = close(period = "4 DAYS");
+        disabled = no;
     case WEEK:
         timeFrame = timeFrame.WEEK;
         timeFrameLow = low(period = "WEEK");
         timeFrameHigh = high(period = "WEEK");
         timeFrameClose = close(period = "WEEK");
+        disabled = no;
     case MONTH:
         timeFrame = timeFrame.MONTH;
         timeFrameLow = low(period = "MONTH");
         timeFrameHigh = high(period = "MONTH");
         timeFrameClose = close(period = "MONTH");
+        disabled = no;
     case "OPT EXP":
         timeFrame = timeFrame."OPT EXP";
         timeFrameLow = low(period = "OPT EXP");
         timeFrameHigh = high(period = "OPT EXP");
         timeFrameClose = close(period = "OPT EXP");
+        disabled = no;
+    case DISABLED:
+        timeFrame = timeFrame.DAY;
+        timeFrameLow = low(period = "DAY");
+        timeFrameHigh = high(period = "DAY");
+        timeFrameClose = close(period = "DAY");
+        disabled = yes;
     }
 }
 else if AP < AggregationPeriod.WEEK
@@ -59,36 +73,49 @@ then {
         timeFrameLow = low(period = "DAY");
         timeFrameHigh = high(period = "DAY");
         timeFrameClose = close(period = "DAY");
+        disabled = no;
     case "2 DAYS":
         timeFrame = timeFrame."2 DAYS";
         timeFrameLow = low(period = "2 DAYS");
         timeFrameHigh = high(period = "2 DAYS");
         timeFrameClose = close(period = "2 DAYS");
+        disabled = no;
     case "3 DAYS":
         timeFrame = timeFrame."3 DAYS";
         timeFrameLow = low(period = "3 DAYS");
         timeFrameHigh = high(period = "3 DAYS");
         timeFrameClose = close(period = "3 DAYS");
+        disabled = no;
     case "4 DAYS":
         timeFrame = timeFrame."4 DAYS";
         timeFrameLow = low(period = "4 DAYS");
         timeFrameHigh = high(period = "4 DAYS");
         timeFrameClose = close(period = "4 DAYS");
+        disabled = no;
     case WEEK:
         timeFrame = timeFrame.WEEK;
         timeFrameLow = low(period = "WEEK");
         timeFrameHigh = high(period = "WEEK");
         timeFrameClose = close(period = "WEEK");
+        disabled = no;
     case MONTH:
         timeFrame = timeFrame.MONTH;
         timeFrameLow = low(period = "MONTH");
         timeFrameHigh = high(period = "MONTH");
         timeFrameClose = close(period = "MONTH");
+        disabled = no;
     case "OPT EXP":
         timeFrame = timeFrame."OPT EXP";
         timeFrameLow = low(period = "OPT EXP");
         timeFrameHigh = high(period = "OPT EXP");
         timeFrameClose = close(period = "OPT EXP");
+        disabled = no;
+    case DISABLED:
+        timeFrame = timeFrame.DAY;
+        timeFrameLow = low(period = "DAY");
+        timeFrameHigh = high(period = "DAY");
+        timeFrameClose = close(period = "DAY");
+        disabled = yes;
     }
 }
 else if AP < AggregationPeriod.MONTH
@@ -99,16 +126,25 @@ then {
         timeFrameLow = low(period = "WEEK");
         timeFrameHigh = high(period = "WEEK");
         timeFrameClose = close(period = "WEEK");
+        disabled = no;
     case MONTH:
         timeFrame = timeFrame.MONTH;
         timeFrameLow = low(period = "MONTH");
         timeFrameHigh = high(period = "MONTH");
         timeFrameClose = close(period = "MONTH");
+        disabled = no;
     case "OPT EXP":
         timeFrame = timeFrame."OPT EXP";
         timeFrameLow = low(period = "OPT EXP");
         timeFrameHigh = high(period = "OPT EXP");
         timeFrameClose = close(period = "OPT EXP");
+        disabled = no;
+    case DISABLED:
+        timeFrame = timeFrame.DAY;
+        timeFrameLow = low(period = "DAY");
+        timeFrameHigh = high(period = "DAY");
+        timeFrameClose = close(period = "DAY");
+        disabled = yes;
     }
 }
 else {
@@ -116,6 +152,7 @@ else {
     timeFrameLow = low(period = "MONTH");
     timeFrameHigh = high(period = "MONTH");
     timeFrameClose = close(period = "MONTH");
+    disabled = yes;
 }
 
 rec marketType = {default DISABLED, NEUTRAL, BEARISH, BULLISH};
@@ -158,13 +195,14 @@ S3 = S2 - timeFrameHigh[1] + timeFrameLow[1];
 RR = if (marketType == marketType.BEARISH or marketType == marketType.NEUTRAL) then R1 else R2;
 SS = if (marketType == marketType.BULLISH or marketType == marketType.NEUTRAL) then S1 else S2;
 
-RR.setHiding(!applyPersonsLevelsFilter);
-R1.setHiding(applyPersonsLevelsFilter);
-R2.setHiding(applyPersonsLevelsFilter);
+PP.setHiding(disabled);
+RR.setHiding(disabled or !applyPersonsLevelsFilter);
+R1.setHiding(disabled or applyPersonsLevelsFilter);
+R2.setHiding(disabled or applyPersonsLevelsFilter);
 R3.hide();
-SS.setHiding(!applyPersonsLevelsFilter);
-S1.setHiding(applyPersonsLevelsFilter);
-S2.setHiding(applyPersonsLevelsFilter);
+SS.setHiding(disabled or !applyPersonsLevelsFilter);
+S1.setHiding(disabled or applyPersonsLevelsFilter);
+S2.setHiding(disabled or applyPersonsLevelsFilter);
 S3.hide();
 
 PP.SetDefaultColor(GetColor(0));
