@@ -3,7 +3,7 @@ input showOnlyToday = no;
 input applyPersonsLevelsFilter = yes;
 input hourly = {default DAY, "2 DAYS", "3 DAYS", "4 DAYS", WEEK, MONTH, "OPT EXP", DISABLED};
 input daily = {DAY, "2 DAYS", "3 DAYS", "4 DAYS", WEEK, default MONTH, "OPT EXP", DISABLED};
-input weekly = {WEEK, default MONTH, "OPT EXP", DISABLED};
+input weekly = {WEEK, MONTH, "OPT EXP", default DISABLED};
 
 def disabled;
 rec timeFrame = {default DAY, "2 DAYS", "3 DAYS", "4 DAYS", WEEK, MONTH, "OPT EXP"};
