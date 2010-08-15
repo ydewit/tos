@@ -1,3 +1,11 @@
+#
+# http://github.com/ydewit/tos/blob/master/studies/PersonsPivots2STUDY.ts
+#
+#hint:<b> Persons Pivots Dynamic (PersonsPivots2)</b> \n This study expands on then Persons Pivots study by making the timeframe dynamic based on the the current chart aggregation period. The actual timeframe chosen for each aggregation period can be individually selected. It is also possible to disable the study for individual periods.
+#hint hourly: the timeframe for 1-hour charts or less<b>(Default is DAY)</b>
+#hint daily: the timeframe for 1-day charts or less<b>(Default is MONTH)</b>
+#hint weekly: the timeframe for 1-week charts or less<b>(Default is DISABLED)</b>
+ 
 input marketThreshold = 0.0025;
 input showOnlyToday = no;
 input applyPersonsLevelsFilter = yes;
